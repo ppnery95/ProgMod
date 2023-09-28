@@ -154,6 +154,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
+  
+  /send-email:
+    post:
+      tags:
+      - Ciclista
+      summary: Notifica mudança de dados
+      description: Envia email para o ciclista para validar mudanças no cadastro.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validateemail_body'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
                 
   /validate-card:
     post:
