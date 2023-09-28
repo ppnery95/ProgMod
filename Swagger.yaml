@@ -25,7 +25,7 @@ tags:
 - name: Sistema
   description: Operações sobre o sistema
 paths:
-  /confirm-email:
+  /confirmar-email:
     post:
       tags:
       - Ciclista
@@ -51,7 +51,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
   
-  /activate-user:
+  /ativar-usuario:
     post:
       tags:
       - Ciclista
@@ -74,7 +74,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_400'
   
                 
-  /register:
+  /registrar:
     post:
       tags:
       - Ciclista
@@ -124,7 +124,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
                 
-  /delete:
+  /deletar:
     put:
       tags:
       - Ciclista
@@ -155,7 +155,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
   
-  /send-email:
+  /enviar-email:
     post:
       tags:
       - Ciclista
@@ -177,7 +177,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
                 
-  /validate-card:
+  /validar-cartao:
     post:
       tags:
       - Administradora
@@ -202,7 +202,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-  /update-card:
+  /atualizar-cartao:
     put:
       tags:
       - Administradora
@@ -229,7 +229,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_400'
                 
                 
-  /register-worker:
+  /registrar-funcionario:
     post:
       tags:
       - Sistema
@@ -279,7 +279,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
                 
-  /delete-worker:
+  /deletar-funcionario:
     put:
       tags:
       - Sistema
@@ -402,23 +402,6 @@ paths:
           description: Dados inválidos
         '500':
           description: Erro interno do servidor
-  
-  /cobranca-taxas-atrasadas:
-    post:
-      tags:
-        - Cobranca
-      summary: Realiza a cobrança de taxas atrasadas para ciclistas em atraso
-      responses:
-        '200':
-          description: Cobranças realizadas com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CobrancaResponse'
-        '500':
-          description: Erro na realização das cobranças
           
   /lista-ciclistas-atraso-cobranca:
     get:
