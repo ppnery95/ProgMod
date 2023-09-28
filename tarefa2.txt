@@ -19,3 +19,19 @@ UC07 - Alterar cartão (fluxo principal)
 		[FRONT] validate-card (Microsserviço Administradora) 
 	Passo 5:
 		[BACK] update-card (Microsserviço Administradora)
+
+UC16 – Cobrar Taxas Atrasadas (fluxo principal)
+          Passo 1: 
+                    [BACK] Operação GET /lista-ciclistas-atraso-cobranca (Microsserviço de Cobrança)
+          Passo 2: 
+                    [BACK] Operação POST /cobranca-taxas-atrasadas [R1][E1] (Microsserviço de Cobrança)
+          Passo 3: 
+                    [BACK] Operação POST  /notificar-cobranca-atrasada [R2] (Microsserviço de Notificação)
+
+UC16 – Cobrar Taxas Atrasadas (fluxo de exceção E1)
+          Passo A2.1: 
+                    [BACK] Operação de registrar cobrança pendente e mensagem de erro (Microsserviço de Cobrança)
+          Passo A2.1 (continuação): 
+                    Volta para o Passo 2 (Microsserviço de Cobrança)
+
+

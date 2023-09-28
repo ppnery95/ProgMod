@@ -305,29 +305,46 @@ paths:
           description: Número da tranca inválido
         '500':
           description: Erro no envio do email
-
-  /tranca/retirar:
-    post:
+  
+  /tranca/{numeroTranca}:
+    patch:
       tags:
         - Tranca
-      summary: Permitir a retirada de uma tranca com reparo solicitado
+      summary: Alterar o status da tranca
+      parameters:
+        - name: numeroTranca
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RetirarTranca'
+              $ref: '#/components/schemas/StatusTranca'
       responses:
         '200':
-          description: Tranca retirada com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetirarTrancaResponse'
+          description: Status da tranca alterado com sucesso
         '400':
-          description: Número da tranca inválido ou tranca com status diferente de “reparo solicitado”
-        '500':
-          description: Erro no envio do email
+          description: Número da tranca inválido
+  
+  /tranca/{numeroTranca}/validar:
+    get:
+      tags:
+        - Tranca
+      summary: Validar o número da tranca
+      parameters:
+        - name: numeroTranca
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tranca validada com sucesso
+        '400':
+          description: Número da tranca inválido
   
   /cobranca-taxas-atrasadas:
     post:
@@ -496,37 +513,33 @@ components:
       properties:
         numeroTranca:
           type: string
-          description: Número da tranca que deve ter sido cadastrado previamente no sistema.
         matriculaReparador:
           type: string
-          description: Matrícula do reparador.
       required:
         - numeroTranca
         - matriculaReparador
-
+    
     TrancaResponse:
       type: object
       properties:
         numeroTranca:
           type: string
-          description: Número da tranca incluída.
         matriculaReparador:
           type: string
-          description: Matrícula do reparador que incluiu a tranca.
         dataHoraInsercao:
           type: string
           format: date-time
-          description: Data e hora da inserção da tranca no totem.
         status:
           type: string
-          description: Status atual da tranca.
         mensagem:
           type: string
-          description: Mensagem informativa sobre a inclusão da tranca.
+    
+    StatusTranca:
+      type: object
+      properties:
+        status:
+          type: string
       required:
-        - numeroTranca
-        - matriculaReparador
-        - dataHoraInsercao
         - status
 
     RetirarTranca:
