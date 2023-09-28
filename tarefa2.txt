@@ -1,0 +1,21 @@
+UC01 – Cadastrar ciclista(fluxo principal)
+   	Passo 7:
+		[FRONT] validate-card (Microsserviço Administradora)
+	Passo 8: 
+		[FRONT] POST register [R1, R2] (Microsserviço Ciclista)
+	Passo 9:
+		[FRONT] validate-email [R3] (Microsserviço Ciclista)
+	
+UC02 – Confirmar email(fluxo principal)
+          Passo 2: 
+                [FRONT] validate-email [R3] (Microsserviço Ciclista)   
+
+UC06 – Alterar dados do ciclista(fluxo principal)
+          Passo 3: 
+                [FRONT] PUT register [R3] (Microsserviço Ciclista)          
+
+UC07 - Alterar cartão (fluxo principal)
+	Passo 3:
+		[FRONT] validate-card (Microsserviço Administradora) 
+	Passo 5:
+		[BACK] update-card (Microsserviço Administradora)
