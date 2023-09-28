@@ -1,0 +1,512 @@
+---
+openapi: 3.0.3
+info:
+  title: Swagger Bicicletario - OpenAPI 3.0
+  description: |-
+    O documento descreve a API utilizada em um sistema de bicicletário
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://petstore3.swagger.io/api/v3
+tags:
+
+- name: Ciclista
+  description: Operações sobre o usuário
+- name: Administradora
+  description: Operações sobre o cartão
+- name: Sistema
+  description: Operações sobre o sistema
+paths:
+  /validate-email:
+    post:
+      tags:
+      - Ciclista
+      summary: Valida um endereço de e-mail
+      description: Recebe um endereço de e-mail como entrada e retorna se é válido ou não.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validateemail_body'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+                
+  /register:
+    post:
+      tags:
+      - Ciclista
+      summary: Cadastra o ciclista
+      description: Faz o cadastro do ciclista.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ciclista'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ciclista'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+    put:
+      tags:
+      - Ciclista
+      summary: Alterar dados do ciclista
+      description: Altera os dados do ciclista
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ciclista'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ciclista'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+                
+  /delete:
+    put:
+      tags:
+      - Ciclista
+      summary: Remove o ciclista do sistema
+      description: Faz a remoção do ciclista do sistema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+                
+  /validate-card:
+    post:
+      tags:
+      - Administradora
+      summary: Valida um cartão do ciclista
+      description: Faz a validação do cartão de pagamento do ciclista
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cartao_credito'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  /update-card:
+    put:
+      tags:
+      - Administradora
+      summary: Altera dados do cartão
+      description: Altera dados do cartão do ciclista
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cartao_credito'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+                
+                
+  /register-worker:
+    post:
+      tags:
+      - Sistema
+      summary: Cadastra dados do funcionário
+      description: Cadastra dados do funcionário no sistema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Funcionario'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Funcionario'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+    put:
+      tags:
+      - Sistema
+      summary: Altera dados do funcionário
+      description: Altera dados do funcionário no sistema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Funcionario'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+                
+  /delete-worker:
+    put:
+      tags:
+      - Sistema
+      summary: Deleta funcionário
+      description: Remove os dados do funcionário do sistema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Funcionario'
+        required: true
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+                
+  /tranca:
+    post:
+      tags:
+        - Tranca
+      summary: Incluir uma nova tranca ou uma tranca reparada na rede de totens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tranca'
+      responses:
+        '200':
+          description: Tranca incluída com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrancaResponse'
+        '400':
+          description: Número da tranca inválido
+        '500':
+          description: Erro no envio do email
+
+  /tranca/retirar:
+    post:
+      tags:
+        - Tranca
+      summary: Permitir a retirada de uma tranca com reparo solicitado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetirarTranca'
+      responses:
+        '200':
+          description: Tranca retirada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetirarTrancaResponse'
+        '400':
+          description: Número da tranca inválido ou tranca com status diferente de “reparo solicitado”
+        '500':
+          description: Erro no envio do email
+  
+  /cobranca-taxas-atrasadas:
+    post:
+      tags:
+        - Cobranca
+      summary: Realiza a cobrança de taxas atrasadas para ciclistas em atraso
+      responses:
+        '200':
+          description: Cobranças realizadas com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CobrancaResponse'
+        '500':
+          description: Erro na realização das cobranças
+
+components:
+  schemas:
+    Ciclista:
+      type: object
+      properties:
+        nome:
+          type: string
+        brasileiro:
+          type: boolean
+        cpf:
+          type: string
+        passaporte:
+          $ref: '#/components/schemas/Ciclista_passaporte'
+        cartao:
+          $ref: '#/components/schemas/cartao_credito'
+        senha:
+          type: string
+        fotoDocumento:
+          type: string
+    Funcionario:
+      type: object
+      properties:
+        nome:
+          type: string
+        funcao:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        opcao:
+          type: string
+        matricula:
+          type: string
+        idade:
+          type: string
+        
+    validateemail_body:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+    inline_response_200:
+      type: object
+      properties:
+        isValid:
+          type: boolean
+        message:
+          type: string
+    inline_response_400:
+      type: object
+      properties:
+        message:
+          type: string
+    Ciclista_passaporte:
+      type: object
+      properties:
+        numero:
+          type: string
+        dataValidade:
+          type: string
+        pais:
+          type: string
+    cartao_credito:
+      type: object
+      properties:
+        numero:
+          type: string
+        dataValidade:
+          type: string
+          format: date
+        codigo:
+          type: string
+        nomeDono:
+          type: string
+    Tranca:
+      type: object
+      properties:
+        numeroTranca:
+          type: string
+          description: Número da tranca que deve ter sido cadastrado previamente no sistema.
+        matriculaReparador:
+          type: string
+          description: Matrícula do reparador.
+      required:
+        - numeroTranca
+        - matriculaReparador
+
+    TrancaResponse:
+      type: object
+      properties:
+        numeroTranca:
+          type: string
+          description: Número da tranca incluída.
+        matriculaReparador:
+          type: string
+          description: Matrícula do reparador que incluiu a tranca.
+        dataHoraInsercao:
+          type: string
+          format: date-time
+          description: Data e hora da inserção da tranca no totem.
+        status:
+          type: string
+          description: Status atual da tranca.
+        mensagem:
+          type: string
+          description: Mensagem informativa sobre a inclusão da tranca.
+      required:
+        - numeroTranca
+        - matriculaReparador
+        - dataHoraInsercao
+        - status
+
+    RetirarTranca:
+      type: object
+      properties:
+        numeroTranca:
+          type: string
+          description: Número da tranca que deve ter sido cadastrado previamente no sistema.
+        matriculaReparador:
+          type: string
+          description: Matrícula do reparador.
+        tipoRetirada:
+          type: string
+          enum: ["reparo", "aposentadoria"]
+          description: Tipo de retirada (reparo ou aposentadoria).
+      required:
+        - numeroTranca
+        - matriculaReparador
+        - tipoRetirada
+
+    RetirarTrancaResponse:
+      type: object
+      properties:
+        numeroTranca:
+          type: string
+          description: Número da tranca retirada.
+        matriculaReparador:
+          type: string
+          description: Matrícula do reparador que retirou a tranca.
+        dataHoraRetirada:
+          type: string
+          format: date-time
+          description: Data e hora da retirada da tranca do totem.
+        status:
+          type: string
+          description: Status atual da tranca.
+        mensagem:
+          type: string
+          description: Mensagem informativa sobre a retirada da tranca.
+      required:
+        - numeroTranca
+        - matriculaReparador
+        - dataHoraRetirada
+        - status
+
+    CobrancaResponse:
+      type: object
+      properties:
+        idCiclista:
+          type: string
+          description: Identificador do ciclista.
+        dataHoraCobranca:
+          type: string
+          format: date-time
+          description: Data e hora da realização da cobrança.
+        valorCobrado:
+          type: number
+          format: float
+          description: Valor extra do aluguel cobrado.
+        cartaoUsado:
+          type: string
+          description: Dados do cartão de crédito utilizado para a cobrança.
+        statusCobranca:
+          type: string
+          enum: ["Sucesso", "Erro"]
+          description: Status da cobrança realizada.
+        mensagem:
+          type: string
+          description: Mensagem informativa sobre a cobrança.
+      required:
+        - idCiclista
+        - dataHoraCobranca
+        - valorCobrado
+        - cartaoUsado
+        - statusCobranca
