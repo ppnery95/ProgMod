@@ -25,12 +25,12 @@ tags:
 - name: Sistema
   description: Operações sobre o sistema
 paths:
-  /validate-email:
+  /confirm-email:
     post:
       tags:
       - Ciclista
-      summary: Valida um endereço de e-mail
-      description: Recebe um endereço de e-mail como entrada e retorna se é válido ou não.
+      summary: Confirma um endereço de e-mail
+      description: Envia email para o ciclista para validar o email.
       requestBody:
         content:
           application/json:
@@ -50,6 +50,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
+  
+  /activate-user:
+    post:
+      tags:
+      - Ciclista
+      summary: Ativar cadastro do ciclista
+      description: Muda status do Ciclista para ativo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validateemail_body'
+        required: true
+      responses:
+        "200":
+          description: Usuário ativo com sucesso!
+        "400":
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  
                 
   /register:
     post:
