@@ -423,7 +423,58 @@ paths:
                 items:
                   $ref: '#/components/schemas/ListaCiclistaAtrasoCobranca'
         '500':
-          description: Erro na busca pelos ciclistas em atraso     
+          description: Erro na busca pelos ciclistas em atraso  
+  /validar-numero-tranca:
+    post:
+      summary: Validar o número da tranca
+      operationId: validarNumeroTranca
+      requestBody:
+        description: Dados da tranca a serem validados
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tranca'
+      responses:
+        '200':
+          description: Número da tranca é válido
+        '400':
+          description: Número da tranca é inválido
+  /ler-numero-bicicleta:
+    get:
+      summary: Ler o número da bicicleta
+      operationId: lerNumeroBicicleta
+      parameters:
+        - name: idTranca
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Número da bicicleta obtido com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bicicleta'
+        '404':
+          description: Bicicleta não encontrada
+  /verificar-permissao-aluguel:
+    post:
+      summary: Verificar permissão de aluguel para o ciclista
+      operationId: verificarPermissaoAluguel
+      requestBody:
+        description: Dados do ciclista
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ciclista'
+      responses:
+        '200':
+          description: Ciclista tem permissão para alugar
+        '400':
+          description: Ciclista não tem permissão para alugar
 
 components:
   schemas:
@@ -654,3 +705,9 @@ components:
           type: string
           format: date
           description: Data de contratação do funcionário
+    Bicicleta:
+      type: object
+      properties:
+        numero:
+          type: integer
+          description: Número da bicicleta
