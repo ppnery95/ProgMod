@@ -206,83 +206,93 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
                 
-                
-  /registrar-funcionario:
+  /funcionarios:
+    get:
+      tags:
+      - Funcionario
+      summary: Obter lista de funcionários
+      operationId: obterFuncionarios
+      responses:
+        '200':
+          description: Lista de funcionários obtida com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Funcionario'
     post:
       tags:
-      - Sistema
-      summary: Cadastra dados do funcionário
-      description: Cadastra dados do funcionário no sistema
+      - Funcionario
+      summary: Registrar um novo funcionário
+      operationId: registrarFuncionario
       requestBody:
+        description: Dados do funcionário a ser registrado
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Funcionario'
-        required: true
       responses:
-        "200":
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Funcionario'
-        "400":
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
+        '201':
+          description: Funcionário registrado com sucesso
+  /funcionarios/{id}:
     put:
       tags:
-      - Sistema
-      summary: Altera dados do funcionário
-      description: Altera dados do funcionário no sistema
+      - Funcionario
+      summary: Atualizar dados de um funcionário
+      operationId: atualizarFuncionario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID do funcionário a ser atualizado
       requestBody:
+        description: Dados atualizados do funcionário
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Funcionario'
-        required: true
       responses:
-        "200":
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        "400":
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-                
-  /deletar-funcionario:
-    put:
+        '200':
+          description: Funcionário atualizado com sucesso
+    delete:
       tags:
-      - Sistema
-      summary: Deleta funcionário
-      description: Remove os dados do funcionário do sistema
+      - Funcionario
+      summary: Remover um funcionário
+      operationId: removerFuncionario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID do funcionário a ser removido
+      responses:
+        '200':
+          description: Funcionário removido com sucesso
+            
+  /funcionarios/validar:
+    post:
+      tags:
+      - Funcionario
+      summary: Validar dados de um funcionário
+      operationId: validarDadosFuncionario
       requestBody:
+        description: Dados do funcionário a serem validados
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Funcionario'
-        required: true
       responses:
-        "200":
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        "400":
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-                
+        '200':
+          description: Dados do funcionário são válidos
+        '400':
+          description: Dados do funcionário são inválidos
   /tranca:
     post:
       tags:
@@ -433,23 +443,6 @@ components:
         senha:
           type: string
         fotoDocumento:
-          type: string
-    Funcionario:
-      type: object
-      properties:
-        nome:
-          type: string
-        funcao:
-          type: string
-        cpf:
-          type: string
-        email:
-          type: string
-        opcao:
-          type: string
-        matricula:
-          type: string
-        idade:
           type: string
         
     validateemail_body:
@@ -645,3 +638,19 @@ components:
         - destinatario
         - assunto
         - corpo
+    Funcionario:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID do funcionário
+        nome:
+          type: string
+          description: Nome do funcionário
+        cargo:
+          type: string
+          description: Cargo do funcionário
+        dataContratacao:
+          type: string
+          format: date
+          description: Data de contratação do funcionário
