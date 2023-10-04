@@ -408,42 +408,64 @@ paths:
                   $ref: '#/components/schemas/ListaCiclistaAtrasoCobranca'
         '500':
           description: Erro na busca pelos ciclistas em atraso  
-  /ler-numero-bicicleta:
-    get:
-      summary: Ler o número da bicicleta
-      operationId: lerNumeroBicicleta
-      parameters:
-        - name: idTranca
-          in: query
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Número da bicicleta obtido com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Bicicleta'
-        '404':
-          description: Bicicleta não encontrada
-  /verificar-permissao-aluguel:
+  /valida-bicicleta:
     post:
-      summary: Verificar permissão de aluguel para o ciclista
-      operationId: verificarPermissaoAluguel
+      tags:
+        - Bicicletas
+      summary: Validar bicicleta
+      description: Valida os dados de uma bicicleta específica.
       requestBody:
-        description: Dados do ciclista
+        description: Dados da bicicleta para validação
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Ciclista'
+              $ref: '#/components/schemas/Bicicleta'
       responses:
-        '200':
-          description: Ciclista tem permissão para alugar
-        '400':
-          description: Ciclista não tem permissão para alugar
-
+        "200":
+          description: Bicicleta validada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidacaoResponse'
+        "400":
+          description: Dados da bicicleta inválidos
+        "500":
+          description: Erro interno do servidor
+          
+  /altera-status-bicicleta/{idBicicleta}:
+    put:
+      tags:
+        - Bicicleta
+      summary: Alterar status da bicicleta
+      description: Altera o status de uma bicicleta específica baseada no ID fornecido.
+      parameters:
+        - name: idBicicleta
+          in: path
+          description: ID da bicicleta a ter o status alterado
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Novo status da bicicleta
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusBicicleta'
+      responses:
+        "200":
+          description: Status da bicicleta alterado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BicicletaResponse'
+        "400":
+          description: Dados inválidos fornecidos
+        "404":
+          description: Bicicleta não encontrada
+        "500":
+          description: Erro interno do servidor
 components:
   schemas:
     Ciclista:
@@ -676,6 +698,48 @@ components:
     Bicicleta:
       type: object
       properties:
-        numero:
-          type: integer
-          description: Número da bicicleta
+        numeroBicicleta:
+          type: string
+          description: Número único de identificação da bicicleta
+        status:
+          type: string
+          description: Status atual da bicicleta
+      required:
+        - numeroBicicleta
+        - status
+    
+    ValidacaoResponse:
+      type: object
+      properties:
+        numeroBicicleta:
+          type: string
+        isValid:
+          type: boolean
+        mensagem:
+          type: string
+      required:
+        - numeroBicicleta
+        - isValid
+        - mensagem
+    StatusBicicleta:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Novo status da bicicleta
+      required:
+        - status
+    
+    BicicletaResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        mensagem:
+          type: string
+      required:
+        - id
+        - status
+        - mensagem
