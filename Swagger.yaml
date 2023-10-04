@@ -188,7 +188,7 @@ paths:
   /funcionarios:
     get:
       tags:
-      - Funcionario
+      - Administração
       summary: Obter lista de funcionários
       operationId: obterFuncionarios
       responses:
@@ -200,9 +200,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Funcionario'
+  /funcionario:
     post:
       tags:
-      - Funcionario
+      - Administração
       summary: Registrar um novo funcionário
       operationId: registrarFuncionario
       requestBody:
@@ -215,15 +216,14 @@ paths:
       responses:
         '201':
           description: Funcionário registrado com sucesso
-  /funcionarios/{id}:
     put:
       tags:
-      - Funcionario
+      - Administração
       summary: Atualizar dados de um funcionário
       operationId: atualizarFuncionario
       parameters:
         - name: id
-          in: path
+          in: query
           required: true
           schema:
             type: integer
@@ -240,12 +240,12 @@ paths:
           description: Funcionário atualizado com sucesso
     delete:
       tags:
-      - Funcionario
+      - Administração
       summary: Remover um funcionário
       operationId: removerFuncionario
       parameters:
         - name: id
-          in: path
+          in: query
           required: true
           schema:
             type: integer
@@ -257,7 +257,7 @@ paths:
   /funcionarios/validar:
     post:
       tags:
-      - Funcionario
+      - Administração
       summary: Validar dados de um funcionário
       operationId: validarDadosFuncionario
       requestBody:
@@ -272,6 +272,35 @@ paths:
           description: Dados do funcionário são válidos
         '400':
           description: Dados do funcionário são inválidos
+  /enviar-mensagem-retirada:
+    post:
+      tags:
+        - Administração
+      summary: Enviar mensagem de retirada
+      description: Envia uma mensagem para o funcionário informando os detalhes da retirada da bicicleta.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                funcionarioId:
+                  type: string
+                  description: ID do funcionário responsável pela retirada
+                mensagem:
+                  type: string
+                  description: Mensagem de retirada a ser enviada para o funcionário
+              required:
+                - funcionarioId
+                - mensagem
+      responses:
+        "200":
+          description: Mensagem enviada com sucesso
+        "400":
+          description: Dados de entrada inválidos
+        "500":
+          description: Erro interno do servidor
   /tranca:
     post:
       tags:
