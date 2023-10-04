@@ -903,31 +903,6 @@ components:
         - matriculaReparador
         - tipoRetirada
 
-    RetirarTrancaResponse:
-      type: object
-      properties:
-        numeroTranca:
-          type: string
-          description: Número da tranca retirada.
-        matriculaReparador:
-          type: string
-          description: Matrícula do reparador que retirou a tranca.
-        dataHoraRetirada:
-          type: string
-          format: date-time
-          description: Data e hora da retirada da tranca do totem.
-        status:
-          type: string
-          description: Status atual da tranca.
-        mensagem:
-          type: string
-          description: Mensagem informativa sobre a retirada da tranca.
-      required:
-        - numeroTranca
-        - matriculaReparador
-        - dataHoraRetirada
-        - status
-
     CobrancaResponse:
       type: object
       properties:
