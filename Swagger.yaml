@@ -316,7 +316,25 @@ paths:
           description: Número da tranca inválido
         '500':
           description: Erro no envio do email
+
+  /trancas/{idTranca}:
+    get:
+      tags:
+        - Tranca
+      summary: Obter informações de uma tranca
+      description: Retorna os dados de uma tranca específica baseada no seu ID.
+      parameters:
+        - name: idTranca
+          in: path
+          required: true
+          description: ID da tranca a ser obtida.
   
+          schema:
+                $ref: '#/components/schemas/TrancaResponse'
+      responses:
+        "200":
+          description: Operação bem-sucedida
+
   /tranca/{numeroTranca}:
     put:
       tags:
@@ -373,42 +391,7 @@ paths:
                   $ref: '#/components/schemas/CobrancaResponse'
         '500':
           description: Erro na realização das cobranças
-  /notificar-email:
-    post:
-      summary: Envia uma notificação por e-mail
-      tags:
-        - Notificação
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NotificacaoEmail'
-      responses:
-        '200':
-          description: Notificação de e-mail enviada com sucesso
-        '400':
-          description: Dados inválidos
-        '500':
-          description: Erro interno do servidor
-          
-  /notificar-cobranca-atrasada:
-    post:
-      summary: Notifica o ciclista sobre uma cobrança de taxa atrasada
-      tags:
-        - Notificação
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NotificacaoCobrancaAtrasada'
-      responses:
-        '200':
-          description: Notificação enviada com sucesso
-        '400':
-          description: Dados inválidos
-        '500':
-          description: Erro interno do servidor
-          
+  
   /lista-ciclistas-atraso-cobranca:
     get:
       tags:
