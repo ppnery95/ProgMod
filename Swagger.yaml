@@ -903,6 +903,7 @@ components:
         - matriculaReparador
         - tipoRetirada
 
+    
     CobrancaResponse:
       type: object
       properties:
