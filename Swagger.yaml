@@ -75,7 +75,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_400'
   
                 
-  /registrar:
+  /ciclista:
     post:
       tags:
       - Ciclista
@@ -124,38 +124,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-                
-  /deletar:
-    put:
+  /enviar-mensagem:
+    post:
       tags:
-      - Ciclista
-      summary: Remove o ciclista do sistema
-      description: Faz a remoção do ciclista do sistema
+        - Ciclista
+      summary: Enviar mensagem  para o ciclista
+      description: Envia uma mensagem para o ciclista.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                email:
+                ciclistaId:
                   type: string
-                password:
+                  description: ID do ciclista 
+                mensagem:
                   type: string
-        required: true
+                  description: Mensagem a ser enviada para o ciclista
+              required:
+                - ciclistaId
+                - mensagem
       responses:
         "200":
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
+          description: Mensagem enviada com sucesso
         "400":
-          description: Requisição inválida
+          description: Dados de entrada inválidos
+        "500":
+          description: Erro interno do servidor              
+  /ciclista-apto-locacao:
+    get:
+      tags:
+        - Ciclista
+      summary: Verifica se o ciclista pode pegar uma bicicleta
+      description: Verifica se o ciclista cumpre os requisitos para pegar uma bicicleta.
+      parameters:
+        - name: ciclistaId
+          in: query
+          description: ID do ciclista
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Verificação realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_400'
-                
+                type: object
+                properties:
+                  podePegarBicicleta:
+                    type: boolean
+                  motivo:
+                    type: string
+        "400":
+          description: ID do ciclista inválido
+        "404":
+          description: Ciclista não encontrado
+        "500":
+          description: Erro interno do servidor              
   
   /funcionarios:
     get:
@@ -342,22 +370,6 @@ paths:
         '500':
           description: Erro na realização das cobranças
   
-  /lista-ciclistas-atraso-cobranca:
-    get:
-      tags:
-        - Cobranca
-      summary: Identifica ciclistas em atraso e suas respectivas cobranças
-      responses:
-        '200':
-          description: Lista de ciclistas em atraso e suas cobranças
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ListaCiclistaAtrasoCobranca'
-        '500':
-          description: Erro na busca pelos ciclistas em atraso  
   /valida-bicicleta:
     post:
       tags:
