@@ -703,7 +703,70 @@ paths:
           description: Dados do cartão inválidos
         "500":
           description: Erro interno do servidor  
+  /totens:
+    get:
+      tags:
+        - Administração
+      summary: Obter lista de totens
+      description: Retorna uma lista de todos os totens disponíveis.
+      responses:
+        "200":
+          description: Lista de totens obtida com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Toten'
+        "500":
+          description: Erro interno do servidor
 
+  /valida-toten:
+    post:
+      tags:
+        - Administração
+      summary: Validar toten
+      description: Valida se um toten específico está disponível e operacional.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                totenId:
+                  type: string
+              required:
+                - totenId
+      responses:
+        "200":
+          description: Toten válido
+        "400":
+          description: Dados de entrada inválidos
+        "404":
+          description: Toten não encontrado
+        "500":
+          description: Erro interno do servidor
+
+  /toten:
+    delete:
+      tags:
+        - Administração
+      summary: Remover toten
+      description: Remove um toten específico do sistema.
+      parameters:
+        - name: totenId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Toten removido com sucesso
+        "404":
+          description: Toten não encontrado
+        "500":
+          description: Erro interno do servidor
 components:
   schemas:
     Ciclista:
@@ -981,3 +1044,15 @@ components:
         - id
         - status
         - mensagem
+    Toten:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador único do toten.
+        localizacao:
+          type: string
+          description: Localização geográfica ou descrição do local do toten.
+      required:
+        - id
+        - localizacao
