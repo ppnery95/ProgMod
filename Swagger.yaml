@@ -156,57 +156,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
                 
-  /validar-cartao:
-    post:
-      tags:
-      - Administradora CC
-      summary: Valida um cartão do ciclista
-      description: Faz a validação do cartão de pagamento do ciclista
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/cartao_credito'
-        required: true
-      responses:
-        "200":
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        "400":
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-  /atualizar-cartao:
-    put:
-      tags:
-      - Administradora CC
-      summary: Altera dados do cartão
-      description: Altera dados do cartão do ciclista
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/cartao_credito'
-        required: true
-      responses:
-        "200":
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        "400":
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-                
+  
   /funcionarios:
     get:
       tags:
@@ -375,11 +325,11 @@ paths:
           description: Número da tranca é válido
         '400':
           description: Número da tranca é inválido
-  /cobranca-taxas-atrasadas:
+  /cobranca:
     post:
       tags:
-        - Cobranca
-      summary: Realiza a cobrança de taxas atrasadas para ciclistas em atraso
+        - Administradora CC
+      summary: Realiza a cobrança para ciclistas
       responses:
         '200':
           description: Cobranças realizadas com sucesso
@@ -411,7 +361,7 @@ paths:
   /valida-bicicleta:
     post:
       tags:
-        - Bicicletas
+        - Bicicleta
       summary: Validar bicicleta
       description: Valida os dados de uma bicicleta específica.
       requestBody:
@@ -433,7 +383,7 @@ paths:
         "500":
           description: Erro interno do servidor
           
-  /altera-status-bicicleta/{idBicicleta}:
+  /altera-status-bicicleta:
     put:
       tags:
         - Bicicleta
@@ -441,7 +391,7 @@ paths:
       description: Altera o status de uma bicicleta específica baseada no ID fornecido.
       parameters:
         - name: idBicicleta
-          in: path
+          in: query
           description: ID da bicicleta a ter o status alterado
           required: true
           schema:
@@ -466,6 +416,253 @@ paths:
           description: Bicicleta não encontrada
         "500":
           description: Erro interno do servidor
+  /situacao-bicicleta:
+    get:
+      tags:
+        - Bicicleta
+      summary: Obter situação da bicicleta
+      description: Retorna a situação atual de uma bicicleta específica.
+      parameters:
+        - name: idBicicleta
+          in: query
+          description: ID da bicicleta
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Situação da bicicleta obtida com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idBicicleta:
+                    type: string
+                  situacao:
+                    type: string
+        "404":
+          description: Bicicleta não encontrada
+        "500":
+          description: Erro interno do servidor
+
+  /registrar-retirada:
+    post:
+      tags:
+        - Bicicleta
+      summary: Registrar retirada de bicicleta
+      description: Registra a retirada de uma bicicleta.
+      requestBody:
+        description: Dados da retirada da bicicleta
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idBicicleta:
+                  type: string
+                dataHoraRetirada:
+                  type: string
+                  format: date-time
+                localRetirada:
+                  type: string
+              required:
+                - idBicicleta
+                - dataHoraRetirada
+                - localRetirada
+      responses:
+        "200":
+          description: Retirada registrada com sucesso
+        "400":
+          description: Dados inválidos fornecidos
+        "500":
+          description: Erro interno do servidor
+
+  /registrar-devolucao:
+    post:
+      tags:
+        - Bicicleta
+      summary: Registrar devolução de bicicleta
+      description: Registra a devolução de uma bicicleta.
+      requestBody:
+        description: Dados da devolução da bicicleta
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idBicicleta:
+                  type: string
+                dataHoraDevolucao:
+                  type: string
+                  format: date-time
+                localDevolucao:
+                  type: string
+              required:
+                - idBicicleta
+                - dataHoraDevolucao
+                - localDevolucao
+      responses:
+        "200":
+          description: Devolução registrada com sucesso
+        "400":
+          description: Dados inválidos fornecidos
+        "500":
+          description: Erro interno do servidor
+
+  /bicicleta:
+    get:
+      tags:
+        - Bicicleta
+      summary: Obter dados de uma bicicleta
+      description: Retorna os dados de uma bicicleta específica.
+      parameters:
+        - name: idBicicleta
+          in: query
+          description: ID da bicicleta
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dados da bicicleta obtidos com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idBicicleta:
+                    type: string
+                  marca:
+                    type: string
+                  modelo:
+                    type: string
+                  ano:
+                    type: integer
+                  status:
+                    type: string
+        "404":
+          description: Bicicleta não encontrada
+        "500":
+          description: Erro interno do servidor
+
+    put:
+      tags:
+        - Bicicleta
+      summary: Atualizar dados de uma bicicleta
+      description: Atualiza os dados de uma bicicleta específica.
+      requestBody:
+        description: Novos dados da bicicleta
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idBicicleta:
+                  type: string
+                marca:
+                  type: string
+                modelo:
+                  type: string
+                ano:
+                  type: integer
+                status:
+                  type: string
+              required:
+                - idBicicleta
+                - marca
+                - modelo
+                - ano
+                - status
+      responses:
+        "200":
+          description: Bicicleta atualizada com sucesso
+        "400":
+          description: Dados inválidos fornecidos
+        "404":
+          description: Bicicleta não encontrada
+        "500":
+          description: Erro interno do servidor
+  /valida-cartao:
+    post:
+      tags:
+        - Administradora CC
+      summary: Validar cartão
+      description: Valida os dados do cartão do usuário.
+      requestBody:
+        description: Dados do cartão para validação
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numeroCartao:
+                  type: string
+                nomeTitular:
+                  type: string
+                dataExpiracao:
+                  type: string
+                codigoSeguranca:
+                  type: integer
+              required:
+                - numeroCartao
+                - nomeTitular
+                - dataExpiracao
+                - codigoSeguranca
+      responses:
+        "200":
+          description: Cartão válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isValid:
+                    type: boolean
+        "400":
+          description: Dados do cartão inválidos
+        "500":
+          description: Erro interno do servidor
+
+  /cartao:
+    post:
+      tags:
+        - Administradora CC
+      summary: Registrar cartão
+      description: Registra os dados do cartão do usuário.
+      requestBody:
+        description: Dados do cartão para registro
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numeroCartao:
+                  type: string
+                nomeTitular:
+                  type: string
+                dataExpiracao:
+                  type: string
+                codigoSeguranca:
+                  type: integer
+              required:
+                - numeroCartao
+                - nomeTitular
+                - dataExpiracao
+                - codigoSeguranca
+      responses:
+        "201":
+          description: Cartão registrado com sucesso
+        "400":
+          description: Dados do cartão inválidos
+        "500":
+          description: Erro interno do servidor  
+
 components:
   schemas:
     Ciclista:
