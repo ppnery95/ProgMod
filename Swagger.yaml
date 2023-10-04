@@ -24,6 +24,7 @@ tags:
   description: Operações sobre o cartão
 - name: Sistema
   description: Operações sobre o sistema
+  
 paths:
   /confirmar-email:
     post:
@@ -317,7 +318,7 @@ paths:
           description: Erro no envio do email
   
   /tranca/{numeroTranca}:
-    patch:
+    put:
       tags:
         - Tranca
       summary: Alterar o status da tranca
@@ -338,24 +339,22 @@ paths:
           description: Status da tranca alterado com sucesso
         '400':
           description: Número da tranca inválido
-  
-  /tranca/{numeroTranca}/validar:
-    get:
-      tags:
-        - Tranca
+  /valida-tranca:
+    post:
       summary: Validar o número da tranca
-      parameters:
-        - name: numeroTranca
-          in: path
-          required: true
-          schema:
-            type: string
+      operationId: validarNumeroTranca
+      requestBody:
+        description: Dados da tranca a serem validados
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tranca'
       responses:
         '200':
-          description: Tranca validada com sucesso
+          description: Número da tranca é válido
         '400':
-          description: Número da tranca inválido
-  
+          description: Número da tranca é inválido
   /cobranca-taxas-atrasadas:
     post:
       tags:
@@ -424,22 +423,6 @@ paths:
                   $ref: '#/components/schemas/ListaCiclistaAtrasoCobranca'
         '500':
           description: Erro na busca pelos ciclistas em atraso  
-  /validar-numero-tranca:
-    post:
-      summary: Validar o número da tranca
-      operationId: validarNumeroTranca
-      requestBody:
-        description: Dados da tranca a serem validados
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Tranca'
-      responses:
-        '200':
-          description: Número da tranca é válido
-        '400':
-          description: Número da tranca é inválido
   /ler-numero-bicicleta:
     get:
       summary: Ler o número da bicicleta
